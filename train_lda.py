@@ -31,7 +31,7 @@ for num in num_topics:
         print(f'trained model topics-{num}, decay-{decay}')
         pprint(lda_model.print_topics())
 
-        lda_model.save('models/lda-model-' + str(num) + '-' + str(decay))
+        lda_model.save('models/lda-model-' + str(num) + '-' + str(decay * 10) + ".model")
         print('saved model\n')
         with open('training_results.txt', 'a') as f:
             f.write(f'topics={num}, decay={decay}\n')

@@ -4,6 +4,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import sys
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
 
 def get_features(text, cv):
     return cv.transform(text)
@@ -14,7 +15,7 @@ data = pd.read_csv(data_path, sep='\t')
 
 with open(processed_path, encoding='utf-8') as f:
     processed_text = f.readlines()
-processed_text = [text.strip() for text in training_data]
+processed_text = [text.strip() for text in processed_text]
 data['Processed Text'] = processed_text
 
 unknown = data.loc[data['Account Type'].isna()]
@@ -45,6 +46,8 @@ model.fit(X_train, y_train)
 
 unknown_X = get_features(unknown_tweets, vectorizer)
 predictions = model.predict(unknown_X)
+
+print(confusion_matrix(known_y, model.predict(known_X)))
 
 user2label = {}
 for author, label in zip(unknown_authors, predictions):
